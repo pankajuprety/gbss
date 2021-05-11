@@ -1,4 +1,4 @@
-from tkinter import EXCEPTION
+
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -44,8 +44,7 @@ def dashboardView(request):
         Book.objects.filter(name=book.name).delete()
         pass
 
-    except EXCEPTION as e:
-        pass
+
     context = {'book_data': book_data, 'form': form}
 
     return render(request, 'dashboard.html', context)
