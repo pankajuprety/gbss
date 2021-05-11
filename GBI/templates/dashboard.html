@@ -1,0 +1,102 @@
+
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+ <body id="body">
+    <section class="hero is-info">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+              Book Self Of Honourable {{user.username}}
+          </h1>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-offset">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="field has-addons">
+                <div class="control is-expanded">
+                  {{ form.name }}
+                </div>
+                <div class="control">
+                  <button type="submit" class="button is-primary" id="add">
+                    Search
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      <section class="section">
+            <div class="container">
+              <div class="rows">
+                <div class="row is-offset-4 is-4">
+                  {% for book_Api in book_data %}
+                  <div class="box">
+                    <article class="media">
+                      <div class="media-left"><br>
+                        <figure class="image is-60x60">
+                          <img src="{{ book_Api.icon }}" alt="image">
+                        </figure>
+                      </div>
+                      <div class="media-content">
+                        <div class="content">
+                          <p>
+                            <b><i><span >{{ book_Api.title }}</span></i></b><br><br>
+                            <span class="publish">{{ book_Api.publishdate }}</span
+                            ><br><br>
+                            <span class="author">{{ book_Api.author }}</span>
+                            <br />
+                            <br />
+
+                           <span id="description"> {{ book_Api.description|slice:":200" }}....
+                                      </span>
+                          </p>
+                          <a href="{{ book_Api.infoLink}}" class="button is-info" id="infoapi">Info</a>
+                         <div id="favourite-section">
+                          <form action="/delete/{{ book_Api.id }}" method="POST">
+                          {% csrf_token %}
+
+                          <button type="submit" class="button is-info" id="delete"><i class="fas fa-trash"></i>
+                          </button>
+                        </form>
+
+
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </section><br>
+      <!-- Footer -->
+       <footer id="main-footer" class="py-4 bg-primary text-white text-center">
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'login_url' %}">LogIn</a>
+    {% endif %}
+  </footer>
+
+  </body>
+</html>
+
+
+{% endblock %}
